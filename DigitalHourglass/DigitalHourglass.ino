@@ -41,10 +41,10 @@ void loop() {
   if(currentTime - previousTime > interval){
     previousTime = currentTime;
     digitalWrite(led, HIGH);
-    ++led;
-    if(led == 8){
+    if(led == 7){
       bComplete = true;
     }
+    ++led;
   }
 
   switchState = digitalRead(switchPin);
