@@ -11,14 +11,14 @@ int prevSwitchState = 0;
 // This is starting index of the LED output pins
 int led = 2;
 // 600,000 ms = 10 minutes
-long interval = 600000;
+long interval = 60000;
 
 bool bComplete = false;
 
 void setup() {
   Serial.begin(9600);
   Serial.println("Setting up..");
-  
+
   for (int x = 2; x < 8; ++x)
   {
     pinMode(x, OUTPUT);
@@ -30,50 +30,56 @@ void setup() {
 
 void loop() {
 
-  // store the amouhnt of time the Arduino has been running 
+  // store the amouhnt of time the Arduino has been running
   unsigned long currentTime = millis();
 
   Serial.print("currentTime ");
   Serial.print(currentTime);
   Serial.print("\tpreviousTime  ");
   Serial.println(previousTime);
-  
-  if(currentTime - previousTime > interval){
+
+  if (currentTime - previousTime > interval) {
     previousTime = currentTime;
     digitalWrite(led, HIGH);
-    if(led == 7){
+    if (led == 7) {
       bComplete = true;
     }
     ++led;
   }
 
   switchState = digitalRead(switchPin);
-  
+
   Serial.print("switchState ");
   Serial.print(switchState);
   Serial.print("\tPrevious State: ");
   Serial.println(prevSwitchState);
 
-  if(switchState != prevSwitchState){
-    for(int x = 2; x < 8; ++x)
+  if (switchState != prevSwitchState) {
+    for (int x = 2; x < 8; ++x)
     {
-      digitalWrite(x, LOW); 
-     }
-     led = 2;
-     bComplete = false;
-     previousTime  = currentTime;
+      digitalWrite(x, LOW);
+    }
+    led = 2;
+    bComplete = false;
+    previousTime  = currentTime;
   }
 
-  if(bComplete)
+  if (bComplete)
   {
-    for(int x = 2; x <= 7; ++x)
+    for (int x = 2; x <= 7; ++x)
     {
       digitalWrite(x, LOW);
       delay(100);
       digitalWrite(x, HIGH);
-    }  
-  
+    }
+
+    for (int x = 7; x >= 2; --x)
+    {
+      digitalWrite(x, LOW);
+      delay(100);
+      digitalWrite(x, HIGH);
+    }
   }
-  
+
   prevSwitchState = switchState;
 }
