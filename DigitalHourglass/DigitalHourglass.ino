@@ -11,7 +11,7 @@ int prevSwitchState = 0;
 // This is starting index of the LED output pins
 int led = 2;
 // 600,000 ms = 10 minutes
-long interval = 60000;
+long interval = 600000;
 
 bool bComplete = false;
 
@@ -68,13 +68,11 @@ void loop() {
   {
     for(int x = 2; x <= 7; ++x)
     {
-      digitalWrite(x, LOW);  
+      digitalWrite(x, LOW);
+      delay(100);
+      digitalWrite(x, HIGH);
     }  
-    delay(5);
-    for(int x = 7; x <= 2; --x)
-    {
-      digitalWrite(x, HIGH);  
-    } 
+  
   }
   
   prevSwitchState = switchState;
