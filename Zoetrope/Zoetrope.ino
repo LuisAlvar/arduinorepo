@@ -1,9 +1,20 @@
+// Analog Input; will control the speed of the motor. 
 const int potentioPin = A0;
+
+// Digital Input with 10KOhms in a series to the ground.
 const int directionSwitchPin = 4;
 const int onoffSwitchPin = 5;
-const int controlPin1 = 2;
-const int controlPin2 = 3;
-const int enablePin = 9;
+
+// H-bridge: place the component where the imprinted letter can be 
+// read from left and right. 
+// Connection 7 and 2 the output signals on 6 and 3 on the H-bridge
+  // Connect pin 7 to digital pin 2.
+  const int controlPin1 = 2;
+  // Connect pin 2 of H-bridge to digital pin 3; 
+  // These controlpins will control the direction. 
+  const int controlPin2 = 3;
+  // Connect pin 1 of H-bridge to digital pin 9; on: receives 5V off: reveives 0V on motor.
+  const int enablePin = 9;
 
 int motorEnable = 0;
 int motorSpeed = 0;
@@ -17,7 +28,7 @@ int preOnOffSwitchState;
 int potentioVal;
 
 void setup() {
-  // INPUT
+  // Digital INPUT
   pinMode(directionSwitchPin, INPUT);
   pinMode(onoffSwitchPin, INPUT);
   // OUTPUT
@@ -70,6 +81,9 @@ void loop() {
     analogWrite(enablePin, 0);
   }
 
+  //Saving the previous state - prevents the case where the user holds down the 
+  //push botton longer than neccessary, 1 != 1 && HIGH -> therefore, it will no 
+  //trigger a change. 
   preDirectionSwitchState = directionSwitchState;
   preOnOffSwitchState = onoffSwitchState;
 
